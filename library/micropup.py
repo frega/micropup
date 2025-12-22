@@ -60,7 +60,7 @@ class MicroPUP:
 
         :param command_name: The (local) name of the command
         :type command_name: string
-        :param \*argv: Optionally, you can pass the to_hub parameters. 
+        :param \\*argv: Optionally, you can pass the to_hub parameters. 
         
         :example:
         
@@ -88,7 +88,7 @@ class MicroPUP:
 
         :param command_name: The name of the command
         :type command_name: string
-        :param \*argv: Optionally, you can pass the from_hub parameters. 
+        :param \\*argv: Optionally, you can pass the to_hub parameters.
         
         :return: It will return a single value, or a list, depending on the value of <n_to_hub>.
         """
