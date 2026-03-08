@@ -7,14 +7,11 @@ __status__ = "Production"
 
 from pybricks.parameters import Port
 from pybricks.iodevices import PUPDevice
-from micropython import const
 from pybricks.tools import run_task, wait, multitask
 
-MODE = const(0)
-NAME = const(1)
-TO_HUB = const(2)
-FROM_HUB = const(3)
-
+# stripped-down micropython does not have slice/tuple-slicing.
+def _slice(data, items):
+    return tuple([data[i] for i in range(items)])
 
 class MicroPUP:
     """
@@ -77,7 +74,8 @@ class MicroPUP:
 
         if to_hub > 0:
             response = self.pup_device.read(mode)
-            response = response[:to_hub]
+            response = _slice(response, to_hub)
+
             return response[0] if len(response) == 1 else response
 
     async def call_multitask(self, command_name: str, *argv):
@@ -114,7 +112,7 @@ class MicroPUP:
 
         if to_hub > 0:
             response = await self.pup_device.read(mode)
-            response = response[:to_hub]
+            response = _slice(response, to_hub)
             return response[0] if len(response) == 1 else response
 
         return None
@@ -147,7 +145,23 @@ p = None
 
 def init(port):
     global p
-    p = MicroPUP(eval("Port." + port))
+
+    if port == "A":
+        p = MicroPUP(Port.A)
+    elif port == "B":
+        p = MicroPUP(Port.B)
+    elif port == "C":
+        p = MicroPUP(Port.C)
+    elif port == "D":
+        p = MicroPUP(Port.D)
+    elif port == "E":
+        p = MicroPUP(Port.E)
+    elif port == "F":
+        p = MicroPUP(Port.F)
+    else:
+        print("Invalid port", port)
+        raise
+
     return p
 
 
